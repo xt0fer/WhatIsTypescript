@@ -4,11 +4,8 @@
 
 const form: HTMLFormElement = document.querySelector('#defineform');
 
-const BASEURL =
-    'https://api.dictionaryapi.dev/api/v2/entries/en/';
-const DEFINEDIV = document.getElementById('definitions');
-
-
+const baseurl = 'https://api.dictionaryapi.dev/api/v2/entries/en/';
+const defsdiv = document.getElementById('definitions');
 
 form.onsubmit = () => {
   const formData = new FormData(form!);
@@ -22,21 +19,21 @@ form.onsubmit = () => {
     element.textContent = text;
   }
 
-  DEFINEDIV!.innerHTML = '';
+  defsdiv!.innerHTML = '';
     fetchWordDefinitions(text)
         .then(defintions => {
             defintions.forEach(d => {
-                DEFINEDIV!.innerHTML += `<p>${d}</p>`;
+              defsdiv!.innerHTML += `<p>${d}</p>`;
             });
         })
         .catch(_ => {
-            DEFINEDIV!.innerHTML += `<p>Error: Unable to find any defintions for ${text}.</p>`;
+          defsdiv!.innerHTML += `<p class="lead">Error: Unable to find any defintions for ${text}.</p>`;
         });
   return false; // prevent reload
 };
 
 const fetchWordDefinitions = async text => {
-    const response = await fetch(BASEURL + text);
+    const response = await fetch(baseurl + text);
     const json = await response.json();
     return json[0].meanings
         .flatMap(m => m.definitions)

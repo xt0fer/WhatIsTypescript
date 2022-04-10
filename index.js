@@ -38,8 +38,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 var form = document.querySelector('#defineform');
-var DICTIONARY_API_BASE_URL = 'https://api.dictionaryapi.dev/api/v2/entries/en/';
-var DEFINITIONS_DIV = document.getElementById('definitions');
+var baseurl = 'https://api.dictionaryapi.dev/api/v2/entries/en/';
+var defsdiv = document.getElementById('definitions');
 form.onsubmit = function () {
     var formData = new FormData(form);
     console.log(formData);
@@ -49,14 +49,14 @@ form.onsubmit = function () {
     if (element) {
         element.textContent = text;
     }
-    DEFINITIONS_DIV.innerHTML = '';
+    defsdiv.innerHTML = '';
     fetchWordDefinitions(text)
         .then(function (defintions) {
         defintions.forEach(function (d) {
-            DEFINITIONS_DIV.innerHTML += "<p>".concat(d, "</p>");
+            defsdiv.innerHTML += "<p>".concat(d, "</p>");
         });
     })["catch"](function (_) {
-        DEFINITIONS_DIV.innerHTML += "<p>Error: Could not retrive any defintions for ".concat(text, ".</p>");
+        defsdiv.innerHTML += "<p class=\"lead\">Error: Unable to find any defintions for ".concat(text, ".</p>");
     });
     return false; // prevent reload
 };
@@ -64,9 +64,7 @@ var fetchWordDefinitions = function (text) { return __awaiter(_this, void 0, voi
     var response, json;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                console.log("Making request for definitions of ".concat(text, "..."));
-                return [4 /*yield*/, fetch(DICTIONARY_API_BASE_URL + text)];
+            case 0: return [4 /*yield*/, fetch(baseurl + text)];
             case 1:
                 response = _a.sent();
                 return [4 /*yield*/, response.json()];
